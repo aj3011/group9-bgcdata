@@ -39,10 +39,15 @@
     <h4>Make the changes to the Work Item</h4>
     <div class="databox">
     <form action="#" method="post" th:action="@{/WorkItemEdit}" th:object="${WorkItem}">
+        <label style="font-weight: bolder;">Name: </label>
         <input style="border-radius: 20px; width: 100%; font-family: Quicksand, san-serif;" type="text" th:field="*{ItemName}" placeholder="Work Item Name" required>
+        <label style="font-weight: bolder;">Start Date: </label>
         <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{StartDate}" onchange="UpdateTable()" id="startDate" required>
+        <label style="font-weight: bolder;">End Date: </label>
         <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{EndDate}" onchange="UpdateTable()" id="endDate" required>
-        <table id="InputTable" onchange="createTeamString()">
+        <div class="tablebox1">
+            <div class="ateamtitle">Assigned Resources</div>
+            <table id="InputTable" onchange="createTeamString()">
             <tr id="Row0">
               <th class="headerrow">Resource Name</th><th>Item Type</th>
             </tr>
@@ -53,8 +58,9 @@
         </table>
         <input type="hidden" id="TBstring" th:field="*{TeamsAssigned}"></input>
         <input type="hidden" th:field="*{Id}"></input>
-        <button style="border-radius: 20px; font-family: Quicksand, sans-serif;" class="inside_btn" type="button" onclick="AddTeam()">Add Resource</button>
-        <div><textarea style="font-family: Quicksand, san-serif;" cols="50" rows="5" th:field="*{FundingInformation}" name="FundingInformation" placeholder="Funding Information" required></textarea></div>
+        <button class="addteambtn" type="button" onclick="AddTeam()">Add Resource</button>
+        </div>
+        <div><textarea font-family: Quicksand, sans-serif; cols="30" rows="5" th:field="*{FundingInformation}" name="FundingInformation" placeholder="Funding Information" required></textarea></div>
         <input style="border-radius: 20px; font-family: Quicksand, sans-serif;" type="submit" value="Update Work Item">
     </form>
     </div>
@@ -115,7 +121,7 @@ function UpdateTable(){
                 currentcellpntr = currentrowpntr.insertCell(-1);
                 if(RowCounter == 0)
                 {
-                    var Cheese = new Date(StartDate.getTime() + ((cellcounter-1)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000)));
+                    var Cheese = new Date(StartDate.getTime() + ((cellcounter-2)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000)));
                     //maybe concatenate calculation here
                     if(cellcounter == 1){
                         currentcellpntr.innerHTML = "Item Type";
@@ -136,7 +142,7 @@ function UpdateTable(){
                         currentcellpntr.innerHTML = '<td><select id="cell'+RowCounter+":"+cellcounter+'"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>';
                         currentcellpntr.className = "rowname";
                     }
-                    else {currentcellpntr.innerHTML = "<input type='number' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
+                    else {currentcellpntr.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
                 }
             }
             else if (cellcounter > (weeks+2)) {
@@ -231,9 +237,9 @@ function FillTable(){
             if(CellCounter == 1){
                 console.log(document.getElementById("cell"+(i+1)+":"+CellCounter));
                 if(Row[CellCounter] == "QA"){
-                    document.getElementById("cell"+(i+1)+":"+1).options.selectedIndex = 1;
+                    if(document.getElementById("cell"+(i+1)+":"+1) != null) {document.getElementById("cell"+(i+1)+":"+1).options.selectedIndex = 1;}
                 }else{
-                    document.getElementById("cell"+(i+1)+":"+1).options.selectedIndex = 0;
+                    if(document.getElementById("cell"+(i+1)+":"+1) != null) {document.getElementById("cell"+(i+1)+":"+1).options.selectedIndex = 0;}
                 }
             }else if (document.getElementById("cell"+(i+1)+":"+CellCounter) != null){
             document.getElementById("cell"+(i+1)+":"+CellCounter).value = Row[CellCounter];
@@ -275,6 +281,10 @@ function FillTable(){
     }
   }
   FillTable();
+  
+  function setTwoNumberDecimal(event) {
+this.value = parseFloat(this.value).toFixed(2);
+}
 </script>
 </body>
 </html>
