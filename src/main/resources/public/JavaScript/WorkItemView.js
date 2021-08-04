@@ -30,8 +30,8 @@ function createTable(row, team, rows, weeks, startdate, enddate){
     for(var j = 1; j <= weeks; j++){
         var d = startdate.getTime()+((j)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000));
         //console.log(d);
-        //var daterow = Date(d);
-        Team += "<th>"+d/*daterow.toString().substring(0, 15)*/+"</th>";
+        var daterow = new Date(d);
+        Team += "<th>"+daterow.toString().substring(0, 15)+"</th>";
     }
     Team += "</tr>"
     var start = weeksBetween(startdate, Date.parse(rows[row].cells[1].innerHTML));
@@ -61,11 +61,13 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                     if(tstart < 0){
                     tstart++;
                     }else{
-                    if(end < 0 && i > tend){  
-                    }else{
+                    if(tend > 0){
                     Team += "<td>"+t+"</td>";
+                    }else{
+                    tend++;
                     }
                     }
+                    c++;
             }
             }
         });
