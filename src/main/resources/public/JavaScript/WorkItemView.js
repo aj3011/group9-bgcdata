@@ -29,7 +29,6 @@ function createTable(row, team, rows, weeks, startdate, enddate){
     
     for(var j = 1; j <= weeks; j++){
         var d = startdate.getTime()+((j)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000));
-        //console.log(d);
         var daterow = new Date(d);
         Team += "<th>"+daterow.toString().substring(0, 15)+"</th>";
     }
@@ -53,17 +52,18 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                 c++;
                 }
                 if(c == 2){
-                for(var m = 0; m < start; m++){
+                for(var m = 0; m < (start-1); m++){
                     Team += "<td></td>";
+                    c++;
                 }
-                c++;
                 }else{
                     if(tstart < 0){
                     tstart++;
                     }else{
-                    if(tend > 0){
+                    if(weeks >= (c-1)){
                     Team += "<td>"+t+"</td>";
                     }else{
+                    Team += "<td></td>";
                     tend++;
                     }
                     }
@@ -71,7 +71,7 @@ function createTable(row, team, rows, weeks, startdate, enddate){
             }
             }
         });
-        for(var m = 0; m < end; m++){
+       for(var m = 0; m < end; m++){
             Team += "<td></td>";
         }
         Team += "</tr>"
@@ -82,60 +82,4 @@ function createTable(row, team, rows, weeks, startdate, enddate){
 
     //console.log(rows);
     rows[row].cells[3].innerHTML = Team+"</table>";
-
-    /*
-    if(weeks < 1) {weeks = 1;}
-    //
-    var TableRows = weeks+2;
-    var currentrowpntr;
-    var cellcounter = 0;
-    var currentcellpntr;
-    for(var RowCounter = 0;RowCounter < TableRows; RowCounter++)
-    {
-        
-        currentrowpntr = document.getElementById("Row"+RowCounter);
-        cellcounter = currentrowpntr.cells.length;
-        if(RowCounter == 0){
-            var temp = cellcounter-1;
-            while(temp > 0){currentrowpntr.deleteCell(temp);temp--}
-            cellcounter = 1;
-        }
-        while (cellcounter != (weeks+2))
-        {
-            //console.log(cellcounter + "/" + weeks);
-            if (cellcounter < (weeks+2)) {
-                currentcellpntr = currentrowpntr.insertCell(-1);
-                if(RowCounter == 0)
-                {
-                    var Cheese = new Date(StartDate.getTime() + ((cellcounter-1)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000)));
-                    //maybe concatenate calculation here
-                    if(cellcounter == 1){
-                        currentcellpntr.innerHTML = "Item Type";
-                        currentcellpntr.className = "itemheader";
-                        }else{
-                        currentcellpntr.innerHTML = Cheese.toString().substring(0,15);
-                        currentcellpntr.className = "itemheader";
-                        }
-                }
-                else
-                {
-                    if (cellcounter == 0)
-                    {
-                        currentcellpntr.innerHTML = "<input type='text' id='"+("cell"+RowCounter+":"+cellcounter)+"' required><br><button type='button' class='delbtn' id='btn"+RowCounter+"' onclick='deleterow("+RowCounter+")'>Delete This Row</button>";
-                        currentcellpntr.className = "rowname";
-                    }
-                    else if (cellcounter == 1){
-                        currentcellpntr.innerHTML = '<td><select id="cell'+RowCounter+":"+cellcounter+'"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>';
-                        currentcellpntr.className = "rowname";
-                    }
-                    else {currentcellpntr.innerHTML = "<input type='number' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
-                }
-            }
-            else if (cellcounter > (weeks+2)) {
-                currentrowpntr.deleteCell(-1);
-            }
-            cellcounter = currentrowpntr.cells.length;
-        }
-    } 
-    */
 }
