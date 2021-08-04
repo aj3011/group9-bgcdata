@@ -53,7 +53,7 @@ function UpdateTable(){
                 currentcellpntr = currentrowpntr.insertCell(-1);
                 if(RowCounter == 0)
                 {
-                    var Cheese = new Date(StartDate.getTime() + ((cellcounter-1)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000)));
+                    var Cheese = new Date(StartDate.getTime() + ((cellcounter-2)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000)));
                     //maybe concatenate calculation here
                     if(cellcounter == 1){
                         currentcellpntr.innerHTML = "Item Type";
@@ -74,7 +74,7 @@ function UpdateTable(){
                         currentcellpntr.innerHTML = '<td><select id="cell'+RowCounter+":"+cellcounter+'"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>';
                         currentcellpntr.className = "rowname";
                     }
-                    else {currentcellpntr.innerHTML = "<input type='number' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
+                    else {currentcellpntr.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
                 }
             }
             else if (cellcounter > (weeks+2)) {
@@ -150,4 +150,8 @@ function deleterow(row)
         }
     }
     createTeamString();
+}
+
+function setTwoNumberDecimal(event) {
+    this.value = parseFloat(this.value).toFixed(2);
 }

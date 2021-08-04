@@ -50,11 +50,11 @@ function calculateGraph() {
         if (TeamCounterInt == 0) {
           DataPair = [];
           DataPair.push(Date.UTC(elemStartDate.getUTCFullYear(), elemStartDate.getUTCMonth(), elemStartDate.getUTCDate() + (7 * y)));
-          DataPair.push(parseInt(WorkString.shift()));
+          DataPair.push(parseFloat(WorkString.shift()));
           WorkData.push(DataPair);
         }
         else {
-          WorkData[y][1] += parseInt(WorkString.shift());
+          WorkData[y][1] += parseFloat(WorkString.shift());
         }
         y++;
       }
@@ -87,7 +87,7 @@ function calculateGraph() {
         var StartScaling = weeksBetween(new Date(item.startDate), new Date(firstDay.getTime() + (x * 6.048e+8)))
         
         var weight = weighting(StartScaling,item.isCoop);
-        console.log(StartScaling,item.isCoop,weight);
+        //console.log(StartScaling,item.isCoop,weight);
         
         //console.log(StartScaling);
         if (item.hasEndDate) {
@@ -138,7 +138,7 @@ function calculateGraph() {
     x++;
   } // round all data entries to avoid weird floating errors
 
-  console.log(FilledData, UnfilledData);
+  //console.log(FilledData, UnfilledData);
   FilledElem.type = "line";
   FilledElem.name = "Filled Positions";
   FilledElem.pointStart = Date.UTC(firstDay.getUTCFullYear(), firstDay.getUTCMonth(), firstDay.getUTCDate());
