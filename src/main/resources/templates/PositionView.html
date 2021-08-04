@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/NavBar :: NavBar}">
+
 </html>
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,14 +28,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-  
+
 
   <link rel="stylesheet" href="stylesheets/PositionView.css">
   <!-- For VSCode live server -->
   <link rel="stylesheet" href="/src/main/resources/public/stylesheets/PositionView.css">
 
   <style>
-    ::-webkit-scrollbar {display:none;}
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
     /* Chrome, Safari, Edge, Opera */
     html {
       scrollbar-width: none;
@@ -72,18 +77,30 @@
         </th:block>
 
         <th:block th:switch="${n.hasEndDate}">
-          <td th:case="true"><div class="true-div" th:text="${n.hasEndDate}"></div></td>
-          <td th:case="false"><div class="false-div" th:text="${n.hasEndDate}"></div></td>
+          <td th:case="true">
+            <div class="true-div" th:text="${n.hasEndDate}"></div>
+          </td>
+          <td th:case="false">
+            <div class="false-div" th:text="${n.hasEndDate}"></div>
+          </td>
         </th:block>
-        
+
         <th:block th:switch="${n.isCoop}">
-          <td th:case="true"><div class="true-div" th:text="${n.isCoop}"></div></td>
-          <td th:case="false"><div class="false-div" th:text="${n.isCoop}"></div></td>
+          <td th:case="true">
+            <div class="true-div" th:text="${n.isCoop}"></div>
+          </td>
+          <td th:case="false">
+            <div class="false-div" th:text="${n.isCoop}"></div>
+          </td>
         </th:block>
 
         <th:block th:switch="${n.isFilled}">
-          <td th:case="true"><div class="true-div" th:text="${n.isFilled}"></div></td>
-          <td th:case="false"><div class="false-div" th:text="${n.isFilled}"></div></td>
+          <td th:case="true">
+            <div class="true-div" th:text="${n.isFilled}"></div>
+          </td>
+          <td th:case="false">
+            <div class="false-div" th:text="${n.isFilled}"></div>
+          </td>
         </th:block>
 
         <!-- For Edit function -->
@@ -106,12 +123,14 @@
         <th:block th:switch="${userRole}">
           <td th:case="admin">
             <form th:action="@{/positionDelete/{id}(id=${n.serialID})}">
-              <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
+              <button style="border: none; background:transparent;" type="submit" value="Delete"><i
+                  style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
             </form>
           </td>
           <td th:case="viewedit">
             <form th:action="@{/positionDelete/{id}(id=${n.serialID})}">
-              <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
+              <button style="border: none; background:transparent;" type="submit" value="Delete"><i
+                  style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
             </form>
           </td>
         </th:block>
@@ -140,12 +159,24 @@
 
     <script th:inline="javascript">
 
-      document.getElementById('fromDate').value = new Date().toDateInputValue();
-      document.getElementById('toDate').value = new Date().toDateInputValue();
+      var todayString = new Date().toISOString().slice(0, 10);
+      var today = new Date();
 
-      drawChart; //maybe???
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+
+      var endDateString = new Date(yyyy, mm, dd).toISOString().slice(0, 10);
+
+
+      document.getElementById('fromDate').value = todayString;
+      document.getElementById('toDate').value = endDateString;
 
       function drawChart() {
+
+        var startingDate = document.getElementById('fromDate').valueAsDate.getTime();
+        var endingDate = document.getElementById('toDate').valueAsDate.getTime();
+
         // $(function () {
         Highcharts.chart("container", {
           chart: {
@@ -186,34 +217,77 @@
             categories: [[${ Names }]]
           },
 
-          yAxis: {
-            // title: {
-            //   text: "Months ( 1 - 12 )"
-            // }
+          yAxis: [{
+            title: {
+              text: "Weeks"
+            },
             type: 'datetime',
-            startOnTick: true,
-            endOnTick: true,
+            startOnTick: false,
+            endOnTick: false,
             // min: new Date('2021/01/01').getTime(),
             //
             // max: [[${maxDate}]],
             // max: new Date('2022/01/01').getTime(),
             //IT SHOWS WEEKLY!!!!!!!!!! EACH WEEK. IF YOU SAY MAX IS 13 JULY, IT WILL SHOW
             //WHOLE WEEK WHERE JULY 13 IS
-            min: document.getElementById('fromDate').valueAsDate.getTime(),
-            max: document.getElementById('toDate').valueAsDate.getTime(),
+
+            // min: document.getElementById('fromDate').valueAsDate.getTime(),
+            // max: document.getElementById('toDate').valueAsDate.getTime(),
+
+            min: startingDate,
+            max: endingDate,
+
             dateTimeLabelFormats: {
               week: '%e of %b'
+              //day: '%e of %b'
             },
-            units: [
-              [
-                'week', [1]
-              ],
-              [
-                'month', [1]
-              ]
-            ],
+            // units: [
+            //   [
+            //     'week', [1]
+            //   ],
+            //   [
+            //     'month', [1]
+            //   ]
+            // ],
+            labels: {
+              rotation: -45
+            },
             tickInterval: 7 * 24 * 3600 * 1000
           },
+          { // Secondary yAxis
+            title: {
+              text: ""
+            },
+            type: 'datetime',
+            labels: {
+              formatter: function () {
+                return Highcharts.dateFormat('%e of %b', this.value);
+              },
+              rotation: -45
+
+              /*
+              use %e for day
+              use %b for month 
+              use %y for year
+              use %H for hours
+              use %M for minutes
+              '*/
+            },
+            // dateTimeLabelFormats: {
+            //   day: '%e of %b'
+            //   //day: '%e of %b'
+            // },
+            startOnTick: true,
+            endOnTick: true,
+            min: startingDate,
+            max: endingDate,
+            // tickPositions: [Highcharts.dateFormat('%e of %b', startingDate), Highcharts.dateFormat('%e of %b', endingDate)],
+            tickPositions: [startingDate, endingDate],
+            offset: 0
+            //tickAmount: 10,
+
+          }
+          ],
 
           tooltip: {
             formatter: function () {
