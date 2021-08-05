@@ -102,7 +102,7 @@ public class GraphingController {
     {
       model.put("profile", principal.getClaims());
       String email = (String) principal.getClaims().get("email");
-      System.out.println(email);
+      //System.out.println(email);
       try (Connection connection = dataSource.getConnection()) 
       {
         Statement stmt = connection.createStatement();

@@ -392,7 +392,7 @@ public class PositionController {
     if (principal != null) {
       model.put("profile", principal.getClaims());
       String email = (String) principal.getClaims().get("email");
-      System.out.println(email);
+      //System.out.println(email);
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (email varchar(50),role varchar(10));");
