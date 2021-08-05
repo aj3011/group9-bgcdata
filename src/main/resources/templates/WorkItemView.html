@@ -77,24 +77,18 @@
   </div>
 </body>
 <script>
-  function test(){
-  var sd = new Date();
-  if(sd.getMonth()-1 == -1){
-    sd.setMonth(11);
-    sd.setFullYear(sd.getFullYear()-1);
-  }else{
-    sd = sd.setMonth(sd.getMonth()-1)
-  }
-  var ed = new Date();
-  if(ed.getMonth()+1 == 12){
-    ed.setMonth(0);
-    ed.setFullYear(ed.getFullYear()+1);
-  }else{
-    ed = ed.setMonth(ed.getMonth()+1)
-  }
-}
-  document.getElementById('startdate').value = sd.getFullYear+" "+sd.getMonth()+" "+sd.getDate();
-  document.getElementById("enddate").value = ed.getFullYear+" "+ed.getMonth()+" "+ed.getDate();
+    var todayString = new Date().toISOString().slice(0, 10);
+      var today = new Date();
+
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+
+      var endDateString = new Date(yyyy, mm, dd).toISOString().slice(0, 10);
+
+
+    document.getElementById('startdate').value = todayString;
+    document.getElementById('enddate').value = endDateString;
   parseTeamString();
   </script>
 </html>
