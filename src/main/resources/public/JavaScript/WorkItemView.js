@@ -54,13 +54,14 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                 if(c == 2){
                 for(var m = 0; m < (start-1); m++){
                     Team += "<td></td>";
-                    c++;
+                   c++; 
                 }
+                c++;
                 }else{
                     if(tstart < 0){
                     tstart++;
                     }else{
-                    if(weeks >= (c-1)){
+                    if(weeks > (c-2)){
                     Team += "<td>"+t+"</td>";
                     }else{
                     Team += "<td></td>";
@@ -79,7 +80,5 @@ function createTable(row, team, rows, weeks, startdate, enddate){
 
     i++;
     }
-
-    //console.log(rows);
     rows[row].cells[3].innerHTML = Team+"</table>";
 }
