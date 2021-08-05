@@ -72,7 +72,6 @@ function UpdateTable(){
                     }
                     else if (cellcounter == 1){
                         currentcellpntr.innerHTML = '<td><select id="cell'+RowCounter+":"+cellcounter+'"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>';
-                        currentcellpntr.className = "rowname";
                     }
                     else {currentcellpntr.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
                 }

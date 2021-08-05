@@ -27,20 +27,20 @@
     <label>Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString()"/><label>End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString()"/>
     <table id="WorkItemViewtable"class="styled-table">
       <tr class="table-header" style="color: lavenderblush;">
-        <th class="header-name" style="padding-right: 150px; border-top-left-radius: 7px;">Item Name</th>
-        <th class="header-name" style="padding-right: 50px">Start Date</th>
-        <th class="header-name" style="padding-right: 50px">End Date</th>
-        <th class="header-name" style="padding-right: 300px">Teams</th>
-        <th class="header-name" style="padding-right: 20px">Funding Information</th>
-        <th class="header-name" style="padding-right: 10px;">Edit</th> <!-- for edit icon-->
+        <th class="header-name" style="border-top-left-radius: 7px;">Item Name</th>
+        <th class="header-name">Start Date</th>
+        <th class="header-name">End Date</th>
+        <th class="header-name" >Teams</th>
+        <th class="header-name">Funding Information</th>
+        <th class="header-name">Edit</th> <!-- for edit icon-->
         <th class="header-name" style="border-top-right-radius: 7px;">Delete</th> <!-- for delete icon-->
         
         <tr th:each="n:${WorkItems}">
-          <td style="padding-right: 150px" th:text="${n.ItemName}"></td>
-          <td style="padding-right: 50px" th:text="${n.StartDate}"></td>
-          <td style="padding-right: 50px" th:text="${n.EndDate}"></td>
-          <td style="padding-right: 300px" th:text="${n.TeamsAssigned}"></td>
-          <td style="padding-right: 20px" th:text="${n.FundingInformation}"></td>
+          <td th:text="${n.ItemName}"></td>
+          <td th:text="${n.StartDate}"></td>
+          <td th:text="${n.EndDate}"></td>
+          <td th:text="${n.TeamsAssigned}"></td>
+          <td th:text="${n.FundingInformation}"></td>
 
           <!-- For Edit function -->
           <th:block th:switch="${userRole}">
@@ -77,24 +77,23 @@
   </div>
 </body>
 <script>
-  function test(){
-  var sd = new Date();
-  if(sd.getMonth()-1 == -1){
-    sd.setMonth(11);
-    sd.setFullYear(sd.getFullYear()-1);
-  }else{
-    sd = sd.setMonth(sd.getMonth()-1)
-  }
-  var ed = new Date();
-  if(ed.getMonth()+1 == 12){
-    ed.setMonth(0);
-    ed.setFullYear(ed.getFullYear()+1);
-  }else{
-    ed = ed.setMonth(ed.getMonth()+1)
-  }
-}
-  document.getElementById('startdate').value = sd.getFullYear+" "+sd.getMonth()+" "+sd.getDate();
-  document.getElementById("enddate").value = ed.getFullYear+" "+ed.getMonth()+" "+ed.getDate();
+      
+    var today = new Date();
+
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+
+      var sdd = String(today.getDate()).padStart(2, '0');
+      var smm = String(today.getMonth() + -1).padStart(2, '0');
+      var syyyy = today.getFullYear();
+
+      var startString = new Date(syyyy, smm ,sdd).toISOString().slice(0, 10);
+      var endDateString = new Date(yyyy, mm, dd).toISOString().slice(0, 10);
+
+
+    document.getElementById('startdate').value = startString;
+    document.getElementById('enddate').value = endDateString;
   parseTeamString();
   </script>
 </html>
