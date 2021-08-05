@@ -200,23 +200,6 @@ public class PositionController {
       // model.put("Names", a);
       model.put("dates", m);
 
-      // Date date = sdf.parse(myDateForTest);
-      // long millis = date.getTime();
-      // model.put("myTest", millis);
-
-      // ArrayList<ArrayList<Integer>> finalDates = new
-      // ArrayList<ArrayList<Integer>>();
-      // ArrayList<Integer> emptyDates = new ArrayList<Integer>();
-
-      // for (int i = 0; i < permamentDates.size(); i++) {
-      // finalDates.add(emptyDates);
-      // }
-      // for (int i = 0; i < coopDates.size(); i++) {
-      // finalDates.add(coopDates.get(i));
-      // }
-
-      // model.put("finalDates", finalDates);
-      // model.put("permamentDates", permamentDates);
 
       ArrayList<ArrayList<Long>> finalDates = new ArrayList<ArrayList<Long>>();
       ArrayList<Long> emptyDates = new ArrayList<Long>();

@@ -155,15 +155,17 @@
 
   <div class="container">
 
-    <div id="container" style="width: 900px; height: 400px; margin: 0 auto"></div>
+    <div id="container" style="width: 900px; height: 600px; margin: 0 auto"></div>
 
     <script th:inline="javascript">
+      /*<![CDATA[*/
 
-      var todayString = new Date().toISOString().slice(0, 10);
+      
       var today = new Date();
+      var todayString = new Date(today.getFullYear(), String(today.getMonth() - 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')).toISOString().slice(0, 10);
 
       var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var mm = String(today.getMonth() + 4).padStart(2, '0');
       var yyyy = today.getFullYear();
 
       var endDateString = new Date(yyyy, mm, dd).toISOString().slice(0, 10);
@@ -173,37 +175,29 @@
       document.getElementById('toDate').value = endDateString;
 
       function drawChart() {
+        
+
+
+        var names = /*[[${Names}]]*/ 'names';
+        var permamentDates = /*[[${permamentDates}]]*/ 'permamentDates';
+        var finalDates = /*[[${finalDates}]]*/ 'finalDates';
+
 
         var startingDate = document.getElementById('fromDate').valueAsDate.getTime();
         var endingDate = document.getElementById('toDate').valueAsDate.getTime();
 
-        // $(function () {
+        
         Highcharts.chart("container", {
           chart: {
             type: "columnrange",
             inverted: true
-            //width: 900
+            
           },
 
           accessibility: {
             description:
               "Visualization of employment"
           },
-
-          // zones: [{
-          //   value: 200,
-          //   color: '#bdbdbd'
-          // }, {
-          //   value: 300,
-          //   color: '#ff0000'
-          // },
-          // {
-          //   value: 500,
-          //   color: 'blue'
-          // }, {
-          //   value: 800,
-          //   color: 'black'
-          // }],
 
           title: {
             text: "Start and End of Commitments"
@@ -214,7 +208,7 @@
           },
 
           xAxis: {
-            categories: [[${ Names }]],
+            categories: names,
             labels: {
               step: 1
             }
@@ -227,37 +221,21 @@
             type: 'datetime',
             startOnTick: false,
             endOnTick: false,
-            // min: new Date('2021/01/01').getTime(),
-            //
-            // max: [[${maxDate}]],
-            // max: new Date('2022/01/01').getTime(),
-            //IT SHOWS WEEKLY!!!!!!!!!! EACH WEEK. IF YOU SAY MAX IS 13 JULY, IT WILL SHOW
-            //WHOLE WEEK WHERE JULY 13 IS
-
-            // min: document.getElementById('fromDate').valueAsDate.getTime(),
-            // max: document.getElementById('toDate').valueAsDate.getTime(),
 
             min: startingDate,
             max: endingDate,
 
             dateTimeLabelFormats: {
               week: '%e of %b'
-              //day: '%e of %b'
+              
             },
-            // units: [
-            //   [
-            //     'week', [1]
-            //   ],
-            //   [
-            //     'month', [1]
-            //   ]
-            // ],
+            
             labels: {
               rotation: -45
             },
             tickInterval: 7 * 24 * 3600 * 1000
           },
-          { // Secondary yAxis
+          { 
             title: {
               text: ""
             },
@@ -268,36 +246,20 @@
               },
               rotation: -45
 
-              /*
-              use %e for day
-              use %b for month 
-              use %y for year
-              use %H for hours
-              use %M for minutes
-              '*/
             },
-            // dateTimeLabelFormats: {
-            //   day: '%e of %b'
-            //   //day: '%e of %b'
-            // },
+            
             startOnTick: true,
             endOnTick: true,
             min: startingDate,
-            max: endingDate,
-            // tickPositions: [Highcharts.dateFormat('%e of %b', startingDate), Highcharts.dateFormat('%e of %b', endingDate)],
+            max: endingDate,      
             tickPositions: [startingDate, endingDate],
             offset: 0
-            //tickAmount: 10,
 
           }
           ],
 
           tooltip: {
             formatter: function () {
-              //   return Highcharts.dateFormat('%Y %e. %b', this.y);
-              // }
-              //formatter: function() {
-              //return Highcharts.dateFormat('%Y %e. %b', this.y);
               if (!(this.point.high)) {
                 return 'Permament position from ' + Highcharts.dateFormat('%Y %e. %b', this.point.low);
               } else {
@@ -315,17 +277,18 @@
             {
               name: "Permament positions",
               color: "#FA8072",
-              data: [[${ permamentDates }]]
+              data: permamentDates
             },
             {
               name: "Coop positions",
               color: "#9dd1f3",
-              data: [[${ finalDates }]]
+              data: finalDates
             }
           ]
         });
-        // });
+        
       };
+      /*]]>*/
     </script>
   </div>
 </body>
