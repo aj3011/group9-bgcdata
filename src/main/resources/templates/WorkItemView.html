@@ -77,8 +77,24 @@
   </div>
 </body>
 <script>
-  document.getElementById('startdate').value = "2021-07-01";
-  document.getElementById("enddate").value = "2021-09-01";
+  function test(){
+  var sd = new Date();
+  if(sd.getMonth()-1 == -1){
+    sd.setMonth(11);
+    sd.setFullYear(sd.getFullYear()-1);
+  }else{
+    sd = sd.setMonth(sd.getMonth()-1)
+  }
+  var ed = new Date();
+  if(ed.getMonth()+1 == 12){
+    ed.setMonth(0);
+    ed.setFullYear(ed.getFullYear()+1);
+  }else{
+    ed = ed.setMonth(ed.getMonth()+1)
+  }
+}
+  document.getElementById('startdate').value = sd.getFullYear+" "+sd.getMonth()+" "+sd.getDate();
+  document.getElementById("enddate").value = ed.getFullYear+" "+ed.getMonth()+" "+ed.getDate();
   parseTeamString();
   </script>
 </html>
