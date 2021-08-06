@@ -35,7 +35,6 @@ function createTable(row, team, rows, weeks, startdate, enddate){
     }
     Team += "</tr>"
     var start = weeksBetween(startdate, Date.parse(rows[row].cells[1].innerHTML));
-    var end = weeksBetween(Date.parse(rows[row].cells[2].innerHTML), enddate);
     while(i < weeks){
         var tstart = start;
         if(i < (team.length-1)){
@@ -56,12 +55,11 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                         Team += "<td></td>";
                        c++; 
                     }
-                    c++;
                      }else{
                         if(tstart < 0){
                         tstart++;
                         }else{
-                        if(weeks > (c-2)){
+                        if(weeks >= (c-2)){
                         Team += "<td>"+t+"</td>";
                         }
                         }
@@ -69,7 +67,7 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                 }
                 }
             });
-            for(var m = 0; m < (weeks-(c-2)); m++){
+            for(var m = 0; m <= (weeks-(c-2)); m++){
                 Team += "<td></td>"; 
             }
             Team += "</tr>"
