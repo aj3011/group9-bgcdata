@@ -24,7 +24,11 @@
 <body style="font-family: Quicksand, sans-serif;">
   <div class="db-container">
     <h1 style="font-weight: bolder;">BGC Work Items</h1><br>
-    <label>Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString()"/><label>End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString()"/>
+    <div style='align-items: center;'>
+      <label style="font-weight: bolder;">Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString()"/>
+      <label style="font-weight: bolder;">End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString()"/>
+    </div>
+
     <table id="WorkItemViewtable"class="styled-table">
       <tr class="table-header" style="color: lavenderblush;">
         <th class="header-name" style="border-top-left-radius: 7px;">Item Name</th>
