@@ -153,7 +153,7 @@ function deleterow(row)
 }
 
 function setTwoNumberDecimal(event) {
-    this.value = parseFloat(this.value).toFixed(2);
+    this.value = parseFloat(this.value).toFixed(5);
 }
 
 function setdate(MorS){
