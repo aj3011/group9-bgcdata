@@ -196,3 +196,31 @@ function ShiftRow()
     }
     UpdateTable();
 }
+
+function ShuntRow()
+{
+    var table = document.getElementById("InputTable");
+    var x = 1;
+    while(x < table.rows.length)
+    {
+        var y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("cell"+x+":"+y);
+            if(fixid != null) {fixid.id = "mcell"+x+":"+(y-1);}
+            y++
+        }
+        var currentcell = table.rows[x].insertCell(-1);
+        table.rows[x].deleteCell(2);
+        y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("mcell"+x+":"+y);
+            if(fixid != null) {fixid.id = "cell"+x+":"+y;}
+            y++
+        }
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":2'  min='0' >";
+        x++
+    }
+    UpdateTable();
+}
