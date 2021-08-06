@@ -59,12 +59,12 @@
           <!-- For Delete function -->
           <th:block th:switch="${userRole}">
             <td th:case="admin">
-              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}">
+              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}" onsubmit="return confirm('Are you sure you want to delete this work item?');">
                 <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
               </form>
             </td>
             <td th:case="viewedit">
-              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}">
+              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}" onsubmit="return confirm('Are you sure you want to delete this work item?');">
                 <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
               </form>
             </td>

@@ -26,7 +26,12 @@ public class GraphingController {
     @GetMapping("/WorkitemGraph")
     public String GraphingWorkitems(Map<String, Object> model, @AuthenticationPrincipal OidcUser principal)
     {
-        GetuserAuthenticationData(model,principal);
+        String Role = GetuserAuthenticationData(model,principal);
+        if (Role.equals("unverified")) {
+          model.put("message",
+              "Unauthorized user: Contact your Administrator to grant you permissions to view this page");
+          return "error";
+        }
         try (Connection connection = dataSource.getConnection()) 
         {
             Statement stmt = connection.createStatement();
@@ -69,7 +74,12 @@ public class GraphingController {
     @GetMapping("/HiringGraph")
     public String GraphingPositions(Map<String, Object> model, @AuthenticationPrincipal OidcUser principal)
     {
-        GetuserAuthenticationData(model,principal);
+        String Role = GetuserAuthenticationData(model,principal);
+        if (Role.equals("unverified")) {
+          model.put("message",
+              "Unauthorized user: Contact your Administrator to grant you permissions to view this page");
+          return "error";
+        }
         try (Connection connection = dataSource.getConnection()) 
         {
             Statement stmt = connection.createStatement();

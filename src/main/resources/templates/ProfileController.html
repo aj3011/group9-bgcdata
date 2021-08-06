@@ -22,7 +22,6 @@
 
     <!-- For VSCode live server -->
     <link rel="stylesheet" href="/src/main/resources/public/stylesheets/ProfileController.css">
-
     <title>User Management</title>
 </head>
 
@@ -43,26 +42,22 @@
                 <td th:text="${n.Email}"></td>
                 <td th:text="${n.Role}"></td>
                 <td><button type="button" th:attr="onclick=|setup('${n.Email}','${n.Role}')|">Select User</button></td>
+                
 
                 <th:block th:switch="${userRole}">
-                    <td th:case="admin">
-                      <form th:action="@{/UserDelete/{email}(email=${n.Email})}">
-                        <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fas fa-user-slash fa-lg"></i></button>
-                      </form>
-                    </td>
-                    <td th:case="viewedit">
-                      <form th:action="@{/UserDelete/{email}(email=${n.Email})}">
-                        <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fas fa-user-slash fa-lg"></i></button>
-                      </form>
-                    </td>
-                    <td th:case="viewonly">
-                    </td>
-                    <td th:case="unverified">
-                    </td>
+                  <td th:case="admin">
+                    <form th:action="@{/UserDelete/{email}(email=${n.Email})}" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                      <button type='submit' style="border: none; background:transparent;"><i style="color:#00196A" class="fas fa-user-slash fa-lg"></i></button>
+                    </form>
+                  </td>
+                  <td th:case="viewedit">
+                  </td>
+                  <td th:case="viewonly">
+                  </td>
+                  <td th:case="unverified">
+                  </td>
                 </th:block>
             </tr>
-
-
 
             <tr class="table-footer">
                 <th style="border-bottom-left-radius: 7px;" class="header-name"></th>
