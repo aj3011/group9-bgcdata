@@ -21,8 +21,9 @@ function weeksBetween(StartDate, EndDate) {
     return Math.ceil((EndDate - StartDate) / (7 * 24 * 60 * 60 * 1000));//rounds up the amount of weeks between the two dates (the number is the amount of milliseconds in a week)
 }
 
-function UpdateTable(){
+function UpdateTable(MorS){
     //console.log("Updating Table");
+    setdate(MorS);
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -153,4 +154,18 @@ function deleterow(row)
 
 function setTwoNumberDecimal(event) {
     this.value = parseFloat(this.value).toFixed(2);
+}
+
+function setdate(MorS){
+    if(MorS == 1){
+        var date = document.getElementById("startDate").valueAsDate;
+        var day = new Date(date).getDay();
+        date = Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
+        document.getElementById("startDate").value = new Date(date).toString().substring(0,15);
+    }else{
+        var date = document.getElementById("endDate").valueAsDate;
+        var day = new Date(date).getDay();
+        date = Date(date).getTime()+((6-day)* 24 * 60 * 60 * 1000);
+        document.getElementById("endDate").value = new Date(date).toString().substring(0,15);
+    }
 }
