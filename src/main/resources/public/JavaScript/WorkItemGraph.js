@@ -16,7 +16,7 @@ function calculateGraph(currentdate) {
   var day = new Date(firstDay).getDay();
   firstDay = new Date(new Date(firstDay).getTime()-((day-1)* 24 * 60 * 60 * 1000));
 
-  var lastDay = new Date(currentdate.getFullYear(), currentdate.getMonth(), currentdate.getUTCDate() + (7*12));
+  var lastDay = new Date(currentdate.getFullYear(), currentdate.getMonth(), currentdate.getUTCDate() + (7*11));
   day = new Date(lastDay).getDay();
   lastDay = new Date(new Date(lastDay).getTime() +((6-day)* 24 * 60 * 60 * 1000));
 
