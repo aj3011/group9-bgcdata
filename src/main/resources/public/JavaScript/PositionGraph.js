@@ -15,7 +15,7 @@ function calculateGraph(currentdate) {
 
   var FilledElem = {};
   var UnfilledElem = {};
-  var linelength = weeksBetween(firstDay, lastDay);
+  var linelength = weeksBetween(firstDay, lastDay)+1;
   var FilledData = [];
   var UnfilledData = [];
   while (FilledData.length < linelength) { FilledData.push(0); }
