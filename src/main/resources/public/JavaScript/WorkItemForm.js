@@ -114,7 +114,7 @@ function createTeamString(){
 
 function deleterow(row)
 {
-    console.log("deleterow"+row);
+    //console.log("deleterow"+row);
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -132,11 +132,11 @@ function deleterow(row)
         table.deleteRow(row);
         while (row < TableRows)
         {
-            console.log(row+",");
+            //console.log(row+",");
             target = document.getElementById("Row"+(row+1));
             cellupdatepnt = document.getElementById("btn"+(row+1));
             cellupdatepnt.setAttribute("onclick", "deleterow("+row+");");
-            console.log(cellupdatepnt.onclick);
+            //console.log(cellupdatepnt.onclick);
             cellupdatepnt.id = "btn"+row;
             while(cellupdate < target.cells.length)
             {
@@ -194,7 +194,7 @@ function ShiftRow()
         currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":2'  min='0' >";
         x++
     }
-    UpdateTable();
+    UpdateTable(1);
 }
 
 function ShuntRow()
@@ -219,8 +219,8 @@ function ShuntRow()
             if(fixid != null) {fixid.id = "cell"+x+":"+y;}
             y++
         }
-        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":2'  min='0' >";
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":"+(y-1)+"'  min='0' >";
         x++
     }
-    UpdateTable();
+    UpdateTable(1);
 }

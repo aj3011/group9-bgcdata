@@ -184,7 +184,7 @@ function createTeamString(){
 
 function deleterow(row)
 {
-    console.log("deleterow"+row);
+    //console.log("deleterow"+row);
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -202,11 +202,11 @@ function deleterow(row)
         table.deleteRow(row);
         while (row < TableRows)
         {
-            console.log(row+",");
+            //console.log(row+",");
             target = document.getElementById("Row"+(row+1));
             cellupdatepnt = document.getElementById("btn"+(row+1));
             cellupdatepnt.setAttribute("onclick", "deleterow("+row+");");
-            console.log(cellupdatepnt.onclick);
+            //console.log(cellupdatepnt.onclick);
             cellupdatepnt.id = "btn"+row;
             while(cellupdate < target.cells.length)
             {
@@ -237,7 +237,7 @@ function FillTable(){
                 Row[CellCounter] = Row[CellCounter].slice(3);
             }
             if(CellCounter == 1){
-                console.log(document.getElementById("cell"+(i+1)+":"+CellCounter));
+                //console.log(document.getElementById("cell"+(i+1)+":"+CellCounter));
                 if(Row[CellCounter] == "QA"){
                     if(document.getElementById("cell"+(i+1)+":"+1) != null) {document.getElementById("cell"+(i+1)+":"+1).options.selectedIndex = 1;}
                 }else{
@@ -351,7 +351,7 @@ function ShuntRow()
             if(fixid != null) {fixid.id = "cell"+x+":"+y;}
             y++
         }
-        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":2'  min='0' >";
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":"+(y-1)+"'  min='0' >";
         x++
     }
     UpdateTable();
