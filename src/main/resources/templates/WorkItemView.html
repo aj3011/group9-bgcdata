@@ -99,12 +99,26 @@
     var today = new Date();
 
       var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0');
-      var yyyy = today.getFullYear();
+      var yyyy = "";
+      var mm = "";
+      if(today.getMonth()+4 > 11){
+      mm = String(today.getMonth() + 4 -11).padStart(2, '0');
+      yyyy = today.getFullYear()+1;
+      }else{
+      mm = String(today.getMonth() + 4).padStart(2, '0');
+      yyyy = today.getFullYear();
+      }
 
       var sdd = String(today.getDate()).padStart(2, '0');
-      var smm = String(today.getMonth() + -1).padStart(2, '0');
-      var syyyy = today.getFullYear();
+      var syyyy = "";
+      var smm = "";
+      if(today.getMonth()-1 < 0){
+      smm = 11;
+      syyyy = today.getFullYear()-1;
+      }else{
+      smm = String(today.getMonth() -1).padStart(2, '0');
+      syyyy = today.getFullYear();
+      }
 
       var startString = new Date(syyyy, smm ,sdd).toISOString().slice(0, 10);
       var endDateString = new Date(yyyy, mm, dd).toISOString().slice(0, 10);
