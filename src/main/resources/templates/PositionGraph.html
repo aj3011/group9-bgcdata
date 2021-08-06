@@ -24,8 +24,9 @@
   </head>
   <body>
     <div id="container" style="width: 80%; height: 600px; margin: 0 auto"></div>
+    <div class="datecontainer">View the graph centred about: <input type="date" id="date" onchange="calculateGraph(new Date(document.getElementById('date').value));"></div>
   </body>
   <script th:inline="javascript" type="text/javascript">
       var Positions = /*[[${Positions}]]*/ "this is a placeholder string that the user should never see";
-      calculateGraph();
+      calculateGraph(new Date());
   </script>
