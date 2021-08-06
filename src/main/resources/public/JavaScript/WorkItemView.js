@@ -47,34 +47,34 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                 Team += "<td>"+t.slice(3)+"</td> ";
                 c++;
             }else{
-                if(c == 1){
+            if(c == 1){
                 Team += "<td>"+t+"</td>";
                 c++;
                 }
                 if(c == 2){
-                for(var m = 0; m < (start); m++){
-                    Team += "<td></td>";
-                   c++; 
-                }
-                c++;
-                }else{
-                    if(tstart < 0){
-                    tstart++;
-                    }else{
-                    if(weeks > (c-2)){
-                    Team += "<td>"+t+"</td>";
-                    }
+                    for(var m = 0; m < (start); m++){
+                        Team += "<td></td>";
+                       c++; 
                     }
                     c++;
+                     }else{
+                        if(tstart < 0){
+                        tstart++;
+                        }else{
+                        if(weeks > (c-2)){
+                        Team += "<td>"+t+"</td>";
+                        }
+                        }
+                        c++;
+                }
+                }
+            });
+            for(var m = 0; m < (weeks-(c-2)); m++){
+                Team += "<td></td>"; 
             }
-            }
-        });
-        for(var m = 0; m < (-1*end); m++){
-            Team += "<td></td>"; 
+            Team += "</tr>"
         }
-        Team += "</tr>"
-    }
-
+    
     i++;
     }
     rows[row].cells[3].innerHTML = Team+"</table>";
