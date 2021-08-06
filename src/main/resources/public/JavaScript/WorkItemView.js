@@ -63,14 +63,15 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                     }else{
                     if(weeks > (c-2)){
                     Team += "<td>"+t+"</td>";
-                    }else{
-                    Team += "<td></td>";
                     }
                     }
                     c++;
             }
             }
         });
+        for(var m = 0; m < (-1*end); m++){
+            Team += "<td></td>"; 
+        }
         Team += "</tr>"
     }
 
