@@ -138,8 +138,8 @@ function calculateGraph(currentdate) {
   x=0;
   while (x < linelength) 
   {
-    FilledData[x] = Math.round(FilledData[x] * 1000) / 1000
-    UnfilledData[x] = Math.round(UnfilledData[x] * 1000) / 1000
+    FilledData[x] = Math.round(FilledData[x] * 10000) / 10000
+    UnfilledData[x] = Math.round(UnfilledData[x] * 10000) / 10000
     x++;
   } // round all data entries to avoid weird floating errors
 
