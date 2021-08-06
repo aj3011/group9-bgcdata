@@ -28,7 +28,7 @@ function createTable(row, team, rows, weeks, startdate, enddate){
     team = team.split("|");
     var Team = "<table><tr><th>Team Name</th><th>Type</th>";
     
-    for(var j = 1; j <= weeks; j++){
+    for(var j = 0; j <= weeks; j++){
         var d = startdate.getTime()+((j)*(7 * 24 * 60 * 60 * 1000) + (24 * 60 * 60 * 1000));
         var daterow = new Date(d);
         Team += "<th>"+daterow.toString().substring(0, 15)+"</th>";
@@ -38,7 +38,6 @@ function createTable(row, team, rows, weeks, startdate, enddate){
     var end = weeksBetween(Date.parse(rows[row].cells[2].innerHTML), enddate);
     while(i < weeks){
         var tstart = start;
-        var tend = weeks+end;
         if(i < (team.length-1)){
         Team += "<tr>"
         team[i] = team[i].split(",");
@@ -53,7 +52,7 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                 c++;
                 }
                 if(c == 2){
-                for(var m = 0; m < (start-1); m++){
+                for(var m = 0; m < (start); m++){
                     Team += "<td></td>";
                    c++; 
                 }
@@ -66,16 +65,12 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                     Team += "<td>"+t+"</td>";
                     }else{
                     Team += "<td></td>";
-                    tend++;
                     }
                     }
                     c++;
             }
             }
         });
-       for(var m = 0; m < end; m++){
-            Team += "<td></td>";
-        }
         Team += "</tr>"
     }
 
