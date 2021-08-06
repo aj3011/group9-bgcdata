@@ -52,7 +52,7 @@ function createTable(row, team, rows, weeks, startdate, enddate){
                 c++;
                 }
                 if(c == 2){
-                for(var m = 0; m < (start-1); m++){
+                for(var m = 0; m < (start); m++){
                     Team += "<td></td>";
                    c++; 
                 }
@@ -71,9 +71,6 @@ function createTable(row, team, rows, weeks, startdate, enddate){
             }
             }
         });
-       for(var m = 0; m < end; m++){
-            Team += "<td></td>";
-        }
         Team += "</tr>"
     }
 
