@@ -158,14 +158,14 @@ function setTwoNumberDecimal(event) {
 
 function setdate(MorS){
     if(MorS == 1){
-        var date = document.getElementById("startDate").valueAsDate;
+        var date = document.getElementById("startDate").value;
         var day = new Date(date).getDay();
-        date = Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
-        document.getElementById("startDate").value = new Date(date).toString().substring(0,15);
+        date = new Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
+        document.getElementById("startDate").valueAsDate = new Date(date);
     }else{
         var date = document.getElementById("endDate").valueAsDate;
         var day = new Date(date).getDay();
-        date = Date(date).getTime()+((6-day)* 24 * 60 * 60 * 1000);
-        document.getElementById("endDate").value = new Date(date).toString().substring(0,15);
+        date = new Date(date).getTime() +((6-day)* 24 * 60 * 60 * 1000);
+        document.getElementById("endDate").valueAsDate = new Date(date);
     }
 }

@@ -39,8 +39,8 @@
   <div class="db-container">
     <h1 style="font-weight: bolder;">BGC Work Items</h1><br>
     <div style='align-items: center;'>
-      <label style="font-weight: bolder;">Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString()"/>
-      <label style="font-weight: bolder;">End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString()"/>
+      <label style="font-weight: bolder;">Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString(1)"/>
+      <label style="font-weight: bolder;">End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString(0)"/>
     </div>
 
     <table id="WorkItemViewtable"class="styled-table">
@@ -112,7 +112,8 @@
 
     document.getElementById('startdate').value = startString;
     document.getElementById('enddate').value = endDateString;
-  parseTeamString();
+    setdate(1);
+  parseTeamString(0);
   </script>
 </html>
 

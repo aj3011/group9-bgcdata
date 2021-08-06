@@ -1,5 +1,5 @@
 var AllTeamStrings = [];
-function parseTeamString(){
+function parseTeamString(MorS){
 var table = document.getElementById("WorkItemViewtable");
 var rows = table.rows;
 if(AllTeamStrings.length == 0){
@@ -7,6 +7,7 @@ if(AllTeamStrings.length == 0){
         AllTeamStrings[(i-1)] = rows[i].cells[3].innerHTML;
       }
 }
+setdate(MorS)
 var StartDate = document.getElementById("startdate").valueAsDate;
 var EndDate = document.getElementById("enddate").valueAsDate;
 var weeks = weeksBetween(StartDate, EndDate);
@@ -81,4 +82,18 @@ function createTable(row, team, rows, weeks, startdate, enddate){
     i++;
     }
     rows[row].cells[3].innerHTML = Team+"</table>";
+}
+
+function setdate(MorS){
+    if(MorS == 1){
+        var date = document.getElementById("startdate").value;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
+        document.getElementById("startdate").valueAsDate = new Date(date);
+    }else{
+        var date = document.getElementById("enddate").valueAsDate;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime() +((6-day)* 24 * 60 * 60 * 1000);
+        document.getElementById("enddate").valueAsDate = new Date(date);
+    }
 }

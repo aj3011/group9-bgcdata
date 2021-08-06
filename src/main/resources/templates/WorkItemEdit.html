@@ -42,9 +42,9 @@
         <label style="font-weight: bolder;">Name: </label>
         <input style="border-radius: 20px; width: 100%; font-family: Quicksand, san-serif;" type="text" th:field="*{ItemName}" placeholder="Work Item Name" required>
         <label style="font-weight: bolder;">Start Date: </label>
-        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{StartDate}" onchange="UpdateTable()" id="startDate" required>
+        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{StartDate}" onchange="UpdateTable(1)" id="startDate" required>
         <label style="font-weight: bolder;">End Date: </label>
-        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{EndDate}" onchange="UpdateTable()" id="endDate" required>
+        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{EndDate}" onchange="UpdateTable(0)" id="endDate" required>
         <div class="tablebox1">
             <div class="ateamtitle">Assigned Resources</div>
             <table id="InputTable" onchange="createTeamString()">
@@ -89,8 +89,9 @@ function weeksBetween(StartDate, EndDate) {
     return Math.ceil((EndDate - StartDate) / (7 * 24 * 60 * 60 * 1000));//rounds up the amount of weeks between the two dates (the number is the amount of milliseconds in a week)
 }
 
-function UpdateTable(){
+function UpdateTable(MorS){
     //console.log("Updating Table");
+    setdate(MorS)
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -283,6 +284,19 @@ function FillTable(){
   
   function setTwoNumberDecimal(event) {
 this.value = parseFloat(this.value).toFixed(2);
+}
+function setdate(MorS){
+    if(MorS == 1){
+        var date = document.getElementById("startDate").value;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
+        document.getElementById("startDate").valueAsDate = new Date(date);
+    }else{
+        var date = document.getElementById("endDate").valueAsDate;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime() +((6-day)* 24 * 60 * 60 * 1000);
+        document.getElementById("endDate").valueAsDate = new Date(date);
+    }
 }
 </script>
 </body>
