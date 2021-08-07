@@ -160,7 +160,7 @@
     <script th:inline="javascript">
       /*<![CDATA[*/
 
-      
+
       var today = new Date();
       var todayString = new Date(today.getFullYear(), String(today.getMonth() - 1).padStart(2, '0'), String(today.getDate()).padStart(2, '0')).toISOString().slice(0, 10);
 
@@ -175,7 +175,7 @@
       document.getElementById('toDate').value = endDateString;
 
       function drawChart() {
-        
+
 
 
         var names = /*[[${Names}]]*/ 'names';
@@ -186,12 +186,82 @@
         var startingDate = document.getElementById('fromDate').valueAsDate.getTime();
         var endingDate = document.getElementById('toDate').valueAsDate.getTime();
 
-        
+        var realPositionsSeries = /*[[${realPositionsSeries}]]*/ 'realPositionsSeries';
+        var coopPositionsSeries = /*[[${coopPositionsSeries}]]*/ 'coopPositionsSeries';
+
+        var seriesRealStarting = /*[[${seriesRealStarting}]]*/ 'seriesRealStarting';
+        var seriesCoopStarting = /*[[${seriesCoopStarting}]]*/ 'seriesCoopStarting';
+
+        var seriesRealEnding = /*[[${seriesRealEnding}]]*/ 'seriesRealEnding';
+        var seriesCoopEnding = /*[[${seriesCoopEnding}]]*/ 'seriesCoopEnding';
+
+        var arrayOfPermamentData = [];
+        var arrayOfCoopData = [];
+
+        var counter = 0;
+
+        for (var i = 0; i < realPositionsSeries.length; i++) {
+          var d;
+          if (seriesRealEnding[i] != 0) {
+            d = {
+              x: i,
+              low: seriesRealStarting[i],
+              high: seriesRealEnding[i]
+            }
+          } else {
+            d = {
+              x: i,
+              low: seriesRealStarting[i]
+            }
+          }
+
+          arrayOfPermamentData.push(d);
+          counter++;
+        }
+
+        for (var i = 0; i < coopPositionsSeries.length; i++) {
+
+          var d;
+          if (seriesCoopEnding[i] != 0) {
+            d = {
+              x: counter++,
+              low: seriesCoopStarting[i],
+              high: seriesCoopEnding[i]
+            }
+          } else {
+            d = {
+              x: counter++,
+              low: seriesCoopStarting[i]
+            }
+          }
+
+          arrayOfCoopData.push(d);
+        }
+
+        console.log(arrayOfPermamentData);
+        console.log(arrayOfCoopData);
+
+
+        var forAdd = arrayOfCoopData[0];
+        arrayOfCoopData.unshift(forAdd);
+
+
+        if (arrayOfCoopData.length <= arrayOfPermamentData.length) {
+          while (arrayOfCoopData.length <= arrayOfPermamentData.length) {
+            var forAdd = arrayOfCoopData[0];
+            arrayOfCoopData.unshift(forAdd);
+          }
+        }
+
+        console.log(arrayOfPermamentData);
+        console.log(arrayOfCoopData);
+
+
         Highcharts.chart("container", {
           chart: {
             type: "columnrange",
             inverted: true
-            
+
           },
 
           accessibility: {
@@ -205,6 +275,12 @@
 
           subtitle: {
             text: "Employee Names are presented on Y - Axis"
+          },
+
+          plotOptions: {
+            columnrange: {
+              grouping: false
+            }
           },
 
           xAxis: {
@@ -227,15 +303,15 @@
 
             dateTimeLabelFormats: {
               week: '%e of %b'
-              
+
             },
-            
+
             labels: {
               rotation: -45
             },
             tickInterval: 7 * 24 * 3600 * 1000
           },
-          { 
+          {
             title: {
               text: ""
             },
@@ -247,11 +323,11 @@
               rotation: -45
 
             },
-            
+
             startOnTick: true,
             endOnTick: true,
             min: startingDate,
-            max: endingDate,      
+            max: endingDate,
             tickPositions: [startingDate, endingDate],
             offset: 0
 
@@ -277,16 +353,18 @@
             {
               name: "Permament positions",
               color: "#FA8072",
-              data: permamentDates
+              // data: permamentDates
+              data: arrayOfPermamentData
             },
             {
               name: "Coop positions",
               color: "#9dd1f3",
-              data: finalDates
+              // data: finalDates
+              data: arrayOfCoopData
             }
           ]
         });
-        
+
       };
       /*]]>*/
     </script>

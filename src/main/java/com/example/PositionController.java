@@ -129,14 +129,24 @@ public class PositionController {
       
       ArrayList<ArrayList<Integer>> m = new ArrayList<ArrayList<Integer>>();
 
-      ArrayList<ArrayList<Integer>> coopDates = new ArrayList<ArrayList<Integer>>();
-      ArrayList<ArrayList<Integer>> permamentDates = new ArrayList<ArrayList<Integer>>();
+      //ArrayList<ArrayList<Integer>> coopDates = new ArrayList<ArrayList<Integer>>();
+      //ArrayList<ArrayList<Integer>> permamentDates = new ArrayList<ArrayList<Integer>>();
 
       ArrayList<ArrayList<Long>> coopDatesMilli = new ArrayList<ArrayList<Long>>();
       ArrayList<ArrayList<Long>> permamentDatesMilli = new ArrayList<ArrayList<Long>>();
 
       // String myDateForTest = "";
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+      ArrayList<String> seriesRealPositionsNames = new ArrayList<String>();
+      ArrayList<String> seriesCoopPositionsNames = new ArrayList<String>();
+
+      ArrayList<Long> seriesRealStarting = new ArrayList<Long>();
+      ArrayList<Long> seriesCoopStarting = new ArrayList<Long>();
+
+      ArrayList<Long> seriesRealEnding = new ArrayList<Long>();
+      ArrayList<Long> seriesCoopEnding = new ArrayList<Long>();
+
 
       while (rs.next()) {
         Position obj = new Position();
@@ -194,6 +204,40 @@ public class PositionController {
           permamentDatesMilli.add(millisecDates);
           notCoopNames.add(x);
         }
+
+
+        if(rs.getBoolean("isCoop")){
+          seriesCoopStarting.add(millisStart);
+
+          if(rs.getBoolean("hasEndDate")){
+            seriesCoopEnding.add(millisEnd);
+          }else{
+            seriesCoopEnding.add(0L);
+          }
+
+        }else{
+
+          seriesRealStarting.add(millisStart);
+          if(rs.getBoolean("hasEndDate")){
+            seriesRealEnding.add(millisEnd);
+          }else{
+            seriesRealEnding.add(0L);
+          }
+
+        }
+
+
+
+
+
+
+        if(rs.getBoolean("isCoop")){
+          seriesCoopPositionsNames.add(x);
+        }else{
+          seriesRealPositionsNames.add(x);
+        }
+
+
       }
 
       model.put("Positions", dataList);
@@ -222,6 +266,15 @@ public class PositionController {
       model.put("finalDates", finalDates);
       model.put("permamentDates", permamentDatesMilli);
       model.put("Names", allOrderedNames);
+
+      model.put("realPositionsSeries", seriesRealPositionsNames);
+      model.put("coopPositionsSeries", seriesCoopPositionsNames);
+
+      model.put("seriesRealStarting", seriesRealStarting);
+      model.put("seriesCoopStarting", seriesCoopStarting);
+
+      model.put("seriesRealEnding", seriesRealEnding);
+      model.put("seriesCoopEnding", seriesCoopEnding);
 
       return "PositionView";
     } catch (Exception e) {
