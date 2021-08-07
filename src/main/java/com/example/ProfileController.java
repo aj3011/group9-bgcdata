@@ -28,13 +28,15 @@ public class ProfileController {
     String DeleteUser(Map<String, Object> model, @AuthenticationPrincipal OidcUser principal,
         @PathVariable String email) {
       String Role = GetuserAuthenticationData(model, principal);
-      if (Role.equals("unverified") || Role.equals("viewonly")) {
+      if (Role.equals("unverified") || Role.equals("viewonly") || Role.equals("viewedit")) {
         model.put("message",
-            "Unauthorized user: Contact your Administrator to grant you permissions to edit the database");
+            "Unauthorized user: Contact your Administrator to grant you permissions to view this page");
         return "error";
       }
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
+
+        System.out.println(email);
         String sql = "DELETE FROM users " + "WHERE (email='" + email + "')";
         stmt.executeUpdate(sql);
 
@@ -49,7 +51,12 @@ public class ProfileController {
     @GetMapping("/ManageUsers")
     public String ManageUsers(Map<String, Object> model, @AuthenticationPrincipal OidcUser principal)
     {
-        GetuserAuthenticationData(model,principal);
+        String Role = GetuserAuthenticationData(model,principal);
+        if (Role.equals("unverified") || Role.equals("viewonly")) {
+          model.put("message",
+              "Unauthorized user: Contact your Administrator to grant you permissions to view this page");
+          return "error";
+        }
         try (Connection connection = dataSource.getConnection()) 
         {
             Statement stmt = connection.createStatement();
@@ -73,7 +80,12 @@ public class ProfileController {
     @PostMapping(path = "/ManageUsers")
     public String handleUserElementSubmit(Map<String, Object> model,PermissionData permissiondata,@AuthenticationPrincipal OidcUser principal) throws Exception
     {
-        GetuserAuthenticationData(model,principal);
+        String Role = GetuserAuthenticationData(model,principal);
+        if (Role.equals("unverified") || Role.equals("viewonly")) {
+          model.put("message",
+              "Unauthorized user: Contact your Administrator to grant you permissions to view this page");
+          return "error";
+        }
         try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
         String sql = "UPDATE users set role = '"+ permissiondata.getRole() +"' WHERE email = '"+permissiondata.getEmail()+"';";

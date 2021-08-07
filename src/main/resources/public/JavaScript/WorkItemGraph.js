@@ -10,10 +10,15 @@ function weighting(StartScaling,iscoop)
   else {if(iscoop){return 0.65;}else{return 0.875;}}
 }
 
-function calculateGraph() {
-  var currentdate = new Date();
-  var firstDay = new Date(currentdate.getFullYear(), currentdate.getMonth() - 1, 1);
-  var lastDay = new Date(currentdate.getFullYear(), currentdate.getMonth() + 4, 0);
+function calculateGraph(currentdate) {
+  
+  var firstDay = new Date(currentdate.getFullYear(), currentdate.getMonth(), currentdate.getUTCDate() + 1 - (7*4));
+  var day = new Date(firstDay).getDay();
+  firstDay = new Date(new Date(firstDay).getTime()-((day-1)* 24 * 60 * 60 * 1000));
+
+  var lastDay = new Date(currentdate.getFullYear(), currentdate.getMonth(), currentdate.getUTCDate() + (7*11));
+  day = new Date(lastDay).getDay();
+  lastDay = new Date(new Date(lastDay).getTime() +((6-day)* 24 * 60 * 60 * 1000));
 
   var formattedSeries = [];
 
@@ -72,7 +77,7 @@ function calculateGraph() {
 
   var FilledElem = {};
   var UnfilledElem = {};
-  var linelength = weeksBetween(firstDay, lastDay);
+  var linelength = weeksBetween(firstDay, lastDay)+1;
   var FilledData = [];
   var UnfilledData = [];
   while (FilledData.length < linelength) { FilledData.push(0); }
@@ -133,8 +138,8 @@ function calculateGraph() {
   x=0;
   while (x < linelength) 
   {
-    FilledData[x] = Math.round(FilledData[x] * 1000) / 1000
-    UnfilledData[x] = Math.round(UnfilledData[x] * 1000) / 1000
+    FilledData[x] = Math.round(FilledData[x] * 10000) / 10000
+    UnfilledData[x] = Math.round(UnfilledData[x] * 10000) / 10000
     x++;
   } // round all data entries to avoid weird floating errors
 

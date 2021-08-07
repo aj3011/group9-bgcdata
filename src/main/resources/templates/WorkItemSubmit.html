@@ -49,11 +49,11 @@
 
       <div>
         <label style="font-weight: bolder;">Start Date: </label><br>
-        <input style="border-radius: 20px; font-family: Quicksand, sans-serif;" class="workitem-startdate" type="date" th:field="*{StartDate}" onchange="UpdateTable()" id="startDate"
+        <input style="border-radius: 20px; font-family: Quicksand, sans-serif;" class="workitem-startdate" type="date" th:field="*{StartDate}" onchange="UpdateTable(1)" id="startDate"
           required></br>
 
         <label style="font-weight: bolder;">End Date: </label><br>
-        <input style="border-radius: 20px; font-family: Quicksand, sans-serif;" class="workitem-enddate" type="date" th:field="*{EndDate}" onchange="UpdateTable()" id="endDate"
+        <input style="border-radius: 20px; font-family: Quicksand, sans-serif;" class="workitem-enddate" type="date" th:field="*{EndDate}" onchange="UpdateTable(0)" id="endDate"
           required>
       </div>
       <div class="tablebox1">
@@ -65,7 +65,7 @@
           <tr id="Row1">
             <td class="rowname"><input type='text' id="cell1:0" required><br><button style="font-family: Quicksand, sans-serif;" class="delbtn" type='button' id="btn1"
                 onclick='deleterow(1)'>Delete This Row</button></td>
-                <td>
+                <td style="min-width:90px;">
                   <select id="cell1:1">
                   <option style="font-family: Quicksand, sans-serif;" value="Dev">Dev</option><option style="font-family: Quicksand, sans-serif;" value="QA">QA</option>
                   </select>
@@ -75,6 +75,8 @@
         </table>
         <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="AddTeam()">Add Resource</button>
       </div>
+      <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShiftRow()">Shift Row Data Right</button>
+      <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShuntRow()">Shift Row Data Left</button>
       <input type="hidden" id="TBstring" th:field="*{TeamsAssigned}"></input>
       <div><textarea font-family: Quicksand, sans-serif; cols="30" rows="5" th:field="*{FundingInformation}" name="FundingInformation"
           placeholder="Funding Information" required></textarea></div>
@@ -85,7 +87,9 @@
   <script>
     document.getElementById('startDate').valueAsDate = new Date();
     document.getElementById('endDate').valueAsDate = new Date();
-    UpdateTable();
+    setdate(1);
+    setdate(0);
+    UpdateTable(0);
   </script>
 </body>
 

@@ -42,9 +42,9 @@
         <label style="font-weight: bolder;">Name: </label>
         <input style="border-radius: 20px; width: 100%; font-family: Quicksand, san-serif;" type="text" th:field="*{ItemName}" placeholder="Work Item Name" required>
         <label style="font-weight: bolder;">Start Date: </label>
-        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{StartDate}" onchange="UpdateTable()" id="startDate" required>
+        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{StartDate}" onchange="UpdateTable(1)" id="startDate" required>
         <label style="font-weight: bolder;">End Date: </label>
-        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{EndDate}" onchange="UpdateTable()" id="endDate" required>
+        <input style="border-radius: 20px; font-family: Quicksand, san-serif;" type="date" th:field="*{EndDate}" onchange="UpdateTable(0)" id="endDate" required>
         <div class="tablebox1">
             <div class="ateamtitle">Assigned Resources</div>
             <table id="InputTable" onchange="createTeamString()">
@@ -53,13 +53,15 @@
             </tr>
           <tr id="Row1">
               <td style="font-family: Quicksand, san-serif;" class="rowname"><input type='text' id="cell1:0"><br><button class="delbtn" type='button' onclick='deleterow(1)'>Delete This Row</button></td>
-              <td style="font-family: Quicksand, san-serif;"><select id="cell1:1"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>
+              <td style="font-family: Quicksand, san-serif;"><select style="min-width:90px;" id="cell1:1"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>
             </tr>
         </table>
         <input type="hidden" id="TBstring" th:field="*{TeamsAssigned}"></input>
         <input type="hidden" th:field="*{Id}"></input>
         <button class="addteambtn" type="button" onclick="AddTeam()">Add Resource</button>
         </div>
+        <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShiftRow()">Shift Row Data Right</button>
+        <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShuntRow()">Shift Row Data Left</button>
         <div><textarea font-family: Quicksand, sans-serif; cols="30" rows="5" th:field="*{FundingInformation}" name="FundingInformation" placeholder="Funding Information" required></textarea></div>
         <input style="border-radius: 20px; font-family: Quicksand, sans-serif;" type="submit" value="Update Work Item">
     </form>
@@ -89,8 +91,9 @@ function weeksBetween(StartDate, EndDate) {
     return Math.ceil((EndDate - StartDate) / (7 * 24 * 60 * 60 * 1000));//rounds up the amount of weeks between the two dates (the number is the amount of milliseconds in a week)
 }
 
-function UpdateTable(){
+function UpdateTable(MorS){
     //console.log("Updating Table");
+    setdate(MorS)
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -140,7 +143,7 @@ function UpdateTable(){
                     }
                     else if (cellcounter == 1){
                         currentcellpntr.innerHTML = '<td><select id="cell'+RowCounter+":"+cellcounter+'"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>';
-                    }
+                       }
                     else {currentcellpntr.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
                 }
             }
@@ -181,7 +184,7 @@ function createTeamString(){
 
 function deleterow(row)
 {
-    console.log("deleterow"+row);
+    //console.log("deleterow"+row);
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -199,11 +202,11 @@ function deleterow(row)
         table.deleteRow(row);
         while (row < TableRows)
         {
-            console.log(row+",");
+            //console.log(row+",");
             target = document.getElementById("Row"+(row+1));
             cellupdatepnt = document.getElementById("btn"+(row+1));
             cellupdatepnt.setAttribute("onclick", "deleterow("+row+");");
-            console.log(cellupdatepnt.onclick);
+            //console.log(cellupdatepnt.onclick);
             cellupdatepnt.id = "btn"+row;
             while(cellupdate < target.cells.length)
             {
@@ -234,7 +237,7 @@ function FillTable(){
                 Row[CellCounter] = Row[CellCounter].slice(3);
             }
             if(CellCounter == 1){
-                console.log(document.getElementById("cell"+(i+1)+":"+CellCounter));
+                //console.log(document.getElementById("cell"+(i+1)+":"+CellCounter));
                 if(Row[CellCounter] == "QA"){
                     if(document.getElementById("cell"+(i+1)+":"+1) != null) {document.getElementById("cell"+(i+1)+":"+1).options.selectedIndex = 1;}
                 }else{
@@ -282,8 +285,78 @@ function FillTable(){
   FillTable();
   
   function setTwoNumberDecimal(event) {
-this.value = parseFloat(this.value).toFixed(2);
+this.value = parseFloat(this.value).toFixed(5);
 }
+function setdate(MorS){
+    if(MorS == 1){
+        var date = document.getElementById("startDate").value;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
+        document.getElementById("startDate").valueAsDate = new Date(date);
+    }else{
+        var date = document.getElementById("endDate").valueAsDate;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime() +((6-day)* 24 * 60 * 60 * 1000);
+        document.getElementById("endDate").valueAsDate = new Date(date);
+    }
+}
+
+function ShiftRow()
+{
+    var table = document.getElementById("InputTable");
+    var x = 1;
+    while(x < table.rows.length)
+    {
+        var y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("cell"+x+":"+y);
+            if(fixid != null) {fixid.id = "mcell"+x+":"+(y+1);}
+            y++
+        }
+        var currentcell = table.rows[x].insertCell(2);
+        table.rows[x].deleteCell(-1);
+        y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("mcell"+x+":"+y);
+            if(fixid != null) {fixid.id = "cell"+x+":"+y;}
+            y++
+        }
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":2'  min='0' >";
+        x++
+    }
+    UpdateTable(1);
+}
+
+function ShuntRow()
+{
+    var table = document.getElementById("InputTable");
+    var x = 1;
+    while(x < table.rows.length)
+    {
+        var y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("cell"+x+":"+y);
+            if(fixid != null) {fixid.id = "mcell"+x+":"+(y-1);}
+            y++
+        }
+        var currentcell = table.rows[x].insertCell(-1);
+        table.rows[x].deleteCell(2);
+        y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("mcell"+x+":"+y);
+            if(fixid != null) {fixid.id = "cell"+x+":"+y;}
+            y++
+        }
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":"+(y-1)+"'  min='0' >";
+        x++
+    }
+    UpdateTable();
+}
+
 </script>
 </body>
 </html>

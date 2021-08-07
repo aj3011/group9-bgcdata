@@ -21,8 +21,9 @@ function weeksBetween(StartDate, EndDate) {
     return Math.ceil((EndDate - StartDate) / (7 * 24 * 60 * 60 * 1000));//rounds up the amount of weeks between the two dates (the number is the amount of milliseconds in a week)
 }
 
-function UpdateTable(){
+function UpdateTable(MorS){
     //console.log("Updating Table");
+    setdate(MorS);
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -71,7 +72,7 @@ function UpdateTable(){
                         currentcellpntr.className = "rowname";
                     }
                     else if (cellcounter == 1){
-                        currentcellpntr.innerHTML = '<td><select id="cell'+RowCounter+":"+cellcounter+'"><option value="Dev">Dev</option><option value="QA">QA</option></select></td>';
+                        currentcellpntr.innerHTML = "<td style='min-width:90px'><select id='"+("cell"+RowCounter+":"+cellcounter)+"'><option value='Dev'>Dev</option><option value='QA'>QA</option></select></td>";
                     }
                     else {currentcellpntr.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+("cell"+RowCounter+":"+cellcounter)+"'  min='0' >";}
                 }
@@ -113,7 +114,7 @@ function createTeamString(){
 
 function deleterow(row)
 {
-    console.log("deleterow"+row);
+    //console.log("deleterow"+row);
     var table = document.getElementById("InputTable");
     var StartDate = document.getElementById("startDate").valueAsDate;
     var EndDate = document.getElementById("endDate").valueAsDate;
@@ -131,11 +132,11 @@ function deleterow(row)
         table.deleteRow(row);
         while (row < TableRows)
         {
-            console.log(row+",");
+            //console.log(row+",");
             target = document.getElementById("Row"+(row+1));
             cellupdatepnt = document.getElementById("btn"+(row+1));
             cellupdatepnt.setAttribute("onclick", "deleterow("+row+");");
-            console.log(cellupdatepnt.onclick);
+            //console.log(cellupdatepnt.onclick);
             cellupdatepnt.id = "btn"+row;
             while(cellupdate < target.cells.length)
             {
@@ -152,5 +153,74 @@ function deleterow(row)
 }
 
 function setTwoNumberDecimal(event) {
-    this.value = parseFloat(this.value).toFixed(2);
+    this.value = parseFloat(this.value).toFixed(5);
+}
+
+function setdate(MorS){
+    if(MorS == 1){
+        var date = document.getElementById("startDate").value;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime()-(day* 24 * 60 * 60 * 1000);
+        document.getElementById("startDate").valueAsDate = new Date(date);
+    }else{
+        var date = document.getElementById("endDate").valueAsDate;
+        var day = new Date(date).getDay();
+        date = new Date(date).getTime() +((6-day)* 24 * 60 * 60 * 1000);
+        document.getElementById("endDate").valueAsDate = new Date(date);
+    }
+}
+function ShiftRow()
+{
+    var table = document.getElementById("InputTable");
+    var x = 1;
+    while(x < table.rows.length)
+    {
+        var y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("cell"+x+":"+y);
+            if(fixid != null) {fixid.id = "mcell"+x+":"+(y+1);}
+            y++
+        }
+        var currentcell = table.rows[x].insertCell(2);
+        table.rows[x].deleteCell(-1);
+        y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("mcell"+x+":"+y);
+            if(fixid != null) {fixid.id = "cell"+x+":"+y;}
+            y++
+        }
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":2'  min='0' >";
+        x++
+    }
+    UpdateTable(1);
+}
+
+function ShuntRow()
+{
+    var table = document.getElementById("InputTable");
+    var x = 1;
+    while(x < table.rows.length)
+    {
+        var y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("cell"+x+":"+y);
+            if(fixid != null) {fixid.id = "mcell"+x+":"+(y-1);}
+            y++
+        }
+        var currentcell = table.rows[x].insertCell(-1);
+        table.rows[x].deleteCell(2);
+        y=2;
+        while(y<table.rows[x].cells.length)
+        {
+            var fixid = document.getElementById("mcell"+x+":"+y);
+            if(fixid != null) {fixid.id = "cell"+x+":"+y;}
+            y++
+        }
+        currentcell.innerHTML = "<input type='number' onchange='setTwoNumberDecimal' step='0.001' id='"+"cell"+x+":"+(y-1)+"'  min='0' >";
+        x++
+    }
+    UpdateTable(1);
 }

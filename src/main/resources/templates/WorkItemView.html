@@ -19,12 +19,30 @@
 
   <!-- For VSCode live server -->
   <link rel="stylesheet" href="/src/main/resources/public/stylesheets/WorkItemView.css">
+
+
+  <style>
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    html {
+      scrollbar-width: none;
+    }
+  </style>
+
+  
   <title>View Work Items Database</title>
 </head>
 <body style="font-family: Quicksand, sans-serif;">
   <div class="db-container">
     <h1 style="font-weight: bolder;">BGC Work Items</h1><br>
-    <label>Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString()"/><label>End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString()"/>
+    <div style='align-items: center;'>
+      <label style="font-weight: bolder;">Start Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="startdate" onchange="parseTeamString(1)"/>
+      <label style="font-weight: bolder;">End Date: </label><input style="font-family: Quicksand, sans-serif;" type="date" id="enddate" onchange="parseTeamString(0)"/>
+    </div>
+
     <table id="WorkItemViewtable"class="styled-table">
       <tr class="table-header" style="color: lavenderblush;">
         <th class="header-name" style="border-top-left-radius: 7px;">Item Name</th>
@@ -59,12 +77,12 @@
           <!-- For Delete function -->
           <th:block th:switch="${userRole}">
             <td th:case="admin">
-              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}">
+              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}" onsubmit="return confirm('Are you sure you want to delete this work item?');">
                 <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
               </form>
             </td>
             <td th:case="viewedit">
-              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}">
+              <form th:action="@{/WorkItemDelete/{id}(id=${n.Id})}" onsubmit="return confirm('Are you sure you want to delete this work item?');">
                 <button style="border: none; background:transparent;" type="submit" value="Delete"><i style="color:#00196A" class="fa fa-trash fa-lg"></i></button>
               </form>
             </td>
@@ -81,12 +99,26 @@
     var today = new Date();
 
       var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0');
-      var yyyy = today.getFullYear();
+      var yyyy = "";
+      var mm = "";
+      if(today.getMonth()+4 > 11){
+      mm = String(today.getMonth() + 4 -11).padStart(2, '0');
+      yyyy = today.getFullYear()+1;
+      }else{
+      mm = String(today.getMonth() + 4).padStart(2, '0');
+      yyyy = today.getFullYear();
+      }
 
       var sdd = String(today.getDate()).padStart(2, '0');
-      var smm = String(today.getMonth() + -1).padStart(2, '0');
-      var syyyy = today.getFullYear();
+      var syyyy = "";
+      var smm = "";
+      if(today.getMonth()-1 < 0){
+      smm = 11;
+      syyyy = today.getFullYear()-1;
+      }else{
+      smm = String(today.getMonth() -1).padStart(2, '0');
+      syyyy = today.getFullYear();
+      }
 
       var startString = new Date(syyyy, smm ,sdd).toISOString().slice(0, 10);
       var endDateString = new Date(yyyy, mm, dd).toISOString().slice(0, 10);
@@ -94,7 +126,8 @@
 
     document.getElementById('startdate').value = startString;
     document.getElementById('enddate').value = endDateString;
-  parseTeamString();
+    setdate(1);
+  parseTeamString(0);
   </script>
 </html>
 
