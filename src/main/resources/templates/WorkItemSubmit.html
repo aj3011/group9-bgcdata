@@ -10,9 +10,6 @@
   <link rel="stylesheet" href="/stylesheets/WorkItemSubmit.css">
   <script src="JavaScript/WorkItemForm.js"></script>
 
-  <!-- For live server - please remove in final iteration!-->
-  <link rel="stylesheet" href="/src/main/resources/public/stylesheets/WorkItemSubmit.css">
-
   <!-- Google font Quicksand-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,8 +72,6 @@
         </table>
         <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="AddTeam()">Add Resource</button>
       </div>
-      <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShiftRow()">Shift Row Data Right</button>
-      <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShuntRow()">Shift Row Data Left</button>
       <input type="hidden" id="TBstring" th:field="*{TeamsAssigned}"></input>
       <div><textarea font-family: Quicksand, sans-serif; cols="30" rows="5" th:field="*{FundingInformation}" name="FundingInformation"
           placeholder="Funding Information" required></textarea></div>
@@ -89,7 +84,7 @@
     document.getElementById('endDate').valueAsDate = new Date();
     setdate(1);
     setdate(0);
-    UpdateTable(0);
+    UpdateTable();
   </script>
 </body>
 
