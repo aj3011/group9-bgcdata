@@ -72,6 +72,8 @@
         </table>
         <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="AddTeam()">Add Resource</button>
       </div>
+      <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShiftRow()">Shift Row Data Right</button>
+      <button style="font-family: Quicksand, sans-serif;" class="addteambtn" type="button" onclick="ShuntRow()">Shift Row Data Left</button>
       <input type="hidden" id="TBstring" th:field="*{TeamsAssigned}"></input>
       <div><textarea font-family: Quicksand, sans-serif; cols="30" rows="5" th:field="*{FundingInformation}" name="FundingInformation"
           placeholder="Funding Information" required></textarea></div>
