@@ -87,9 +87,9 @@ public class Main implements WebMvcConfigurer {
         img.setAlttext("Title");
         img.setImgname("Title");
         img.setImgurl("Img.png");
-        imgs.add(img)
+        imgs.add(img);
       }
-      model.put("imgs", imgs)
+      model.put("imgs", imgs);
       return "index";
     } catch (Exception e) {
       model.put("message", e.getMessage());
