@@ -48,11 +48,7 @@ import java.util.Date;
 
 @Controller
 @SpringBootApplication
-public class Main implements WebMvcConfigurer {
-
-  public void addViewController(ViewControllerRegistry registry) {
-    registry.addViewController("/index").setViewName("index");
-  }
+public class Main {
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
