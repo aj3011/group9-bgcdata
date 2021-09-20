@@ -22,7 +22,7 @@ public class imgdata {
     return this.alttext;
   }
   
-  public String getImgname()) {
+  public String getImgname() {
     return this.imgname;
   }
 

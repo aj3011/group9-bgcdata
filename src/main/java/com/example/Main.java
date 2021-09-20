@@ -69,8 +69,7 @@ public class Main implements WebMvcConfigurer {
 
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS images (id serial, alttext
-      varchar(50), imgname varchar(50), imgurl varchar(200))");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS images (id serial, alttext varchar(50), imgname varchar(50), imgurl varchar(200))");
       String sql = "SELECT * FROM images";
       ResultSet rs = stmt.executeQuery(sql);
       ArrayList<imgdata> imgs = new ArrayList<imgdata>();
@@ -107,3 +106,4 @@ public class Main implements WebMvcConfigurer {
       return new HikariDataSource(config);
     }
   }
+}
