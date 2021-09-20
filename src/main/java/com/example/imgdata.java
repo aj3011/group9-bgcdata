@@ -11,7 +11,7 @@ public class imgdata {
   }
 
   public void setImgname(String n) {
-    this.imgname = m;
+    this.imgname = n;
   }
 
   public void setImgurl(String u) {
