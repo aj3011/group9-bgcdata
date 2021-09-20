@@ -42,13 +42,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
-//graph imports
-import org.springframework.web.bind.annotation.GetMapping;
-
-//auth0 login imports
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-
 //for date formatting
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,12 +65,31 @@ public class Main implements WebMvcConfigurer {
   }
 
   @RequestMapping("/")
-  String index(Map<String, Object> model, @AuthenticationPrincipal OidcUser principal) {
-    GetuserAuthenticationData(model, principal);
+  String index(Map<String, Object> model) {
+
     try (Connection connection = dataSource.getConnection()) {
-      // Statement stmt = connection.createStatement();
-      // stmt.executeUpdate("CREATE TABLE IF NOT EXISTS squares (id serial, boxname
-      // varchar(20), height int, width int, boxcolor char(7), outlined boolean)");
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS images (id serial, alttext
+      varchar(50), imgname varchar(50), imgurl varchar(200))");
+      String sql = "SELECT * FROM images";
+      ResultSet rs = stmt.executeQuery(sql);
+      ArrayList<imgdata> imgs = new ArrayList<imgdata>();
+      int i = 1;
+      while(rs.next()){
+        imgdata img = new imgdata();
+        img.setAlttext(rs.getString("alttext"));
+        img.setImgname(rs.getString("imgname"));
+        img.setImgurl(rs.getString("imgurl"));
+        imgs.add(img);
+      }
+      if(imgs.isEmpty()){
+        imgdata img = new imgdata();
+        img.setAlttext("Title");
+        img.setImgname("Title");
+        img.setImgurl("Img.png");
+        imgs.add(img)
+      }
+      model.put("imgs", imgs)
       return "index";
     } catch (Exception e) {
       model.put("message", e.getMessage());
@@ -95,38 +107,3 @@ public class Main implements WebMvcConfigurer {
       return new HikariDataSource(config);
     }
   }
-
-  public String GetuserAuthenticationData(Map<String, Object> model, @AuthenticationPrincipal OidcUser principal) {
-    String defaultrole = "unverified";
-    if (principal != null) {
-      model.put("profile", principal.getClaims());
-      String email = (String) principal.getClaims().get("email");
-      System.out.println(email);
-      try (Connection connection = dataSource.getConnection()) {
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users (email varchar(50),role varchar(10))");
-        ResultSet rs = stmt.executeQuery(("SELECT * FROM users WHERE email='" + email + "'"));
-        if (rs.next()) {
-          model.put("userRole", rs.getString("role"));
-          return rs.getString("role");
-        } else {
-          if (email.equals("testuser@redfoxtech.ca")) {
-            defaultrole = "admin";
-          }
-          System.out.println(defaultrole);
-          stmt.executeUpdate("INSERT INTO users (email,role) VALUES ('" + email + "','" + defaultrole + "')");
-          model.put("userRole", defaultrole);
-          return defaultrole;
-        }
-      } catch (Exception e) {
-        model.put("message", e.getMessage());
-        System.out.println(e);
-        return "error";
-      }
-    } else {
-      model.put("userRole", "Not Logged In");
-      return "Not Logged In";
-    }
-    // Database calls for the role in question
-  }
-}

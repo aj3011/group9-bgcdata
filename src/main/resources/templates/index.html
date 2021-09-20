@@ -1,151 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" sec:authorize="isAuthenticated()" th:replace="~{fragments/NavBar :: NavBar}" lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"></html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <link rel="stylesheet" href="/stylesheets/index.css">
+  <link rel="stylesheet" href="../static/stylesheets/index.css">
+  <script src="../public/JavaScript/imagechanges.js">console.log(model)</script>
 
-  <!-- Bootstrap imports -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-  <!-- Google fonts-->
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap" rel="stylesheet" />
-
-  <title>BGC Data Analysis Tool</title>
+  <title>Img Repository</title>
 </head>
 <body>
-  <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="/images/bg.mp4" type="video/mp4" /></video>
   <div class="landing-page">
-    <div class="landing-page-content text-white">
-      <h1>BGC Data Dashboard</h1>
-      <a class="login-btn" sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/auth0}">Log In</a>
-      <br>
-      <div sec:authorize="isAuthenticated()">
-        <h3>Welcome back, <h3 th:remove="tag" th:text="${profile.get('name')}"></h3></h3>
-        <img th:src="${profile.get('picture')}"/>
-        <div th:text="${userRole}"></div>
-        <div th:if="${userRole == 'unverified'}">Account Successfully Created: Contact an administrator to have them grant you the proper permissions!</div>
-        <p th:text="${profile.get('email')}"></p>
+    
+      <h1>Img Repository</h1>
+      <input value="Add an Image to the Repository" type="button" onclick=""/>
+      <div class="imgrepo">
+      
+      <table>
+        <tr>
+          <td><div class="imgbox" id="img1">
+            <b class="ititle">Title</b>
+            <img src="" alt="test"/>
+            <input type="button" onclick="deleteimg(1)" value="Delete"/>
+            </td>
+          <td><div class="imgbox" id="img2"></div></td>
+          <td><div class="imgbox" id="img3"></div></td>
+        </tr>
+        <tr>
+          <td><div class="imgbox" id="img1"></div></td>
+          <td><div class="imgbox" id="img2"></div></td>
+          <td><div class="imgbox" id="img3"></div></td>
+        </tr>
+        <tr>
+          <td><div class="imgbox" id="img1"></div></td>
+          <td><div class="imgbox" id="img2"></div></td>
+          <td><div class="imgbox" id="img3"></div></td>
+        </tr>
+        <tr>
+          <td><div class="imgbox" id="img1"></div></td>
+          <td><div class="imgbox" id="img2"></div></td>
+          <td><div class="imgbox" id="img3"></div></td>
+        </tr>
       </div>
-    </div>
+
+      </div>
   </div>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  Really Long Page for Testing Purposes
 </body>
 </html>
